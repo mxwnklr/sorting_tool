@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorting Visualizer</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        background: "#09090b",
+                        foreground: "#fafafa",
+                        card: "#18181b", 
+                        "card-foreground": "#fafafa",
+                        primary: "#f97316",
+                        secondary: "#27272a",
+                        muted: "#27272a",
+                        "muted-foreground": "#a1a1aa",
+                        border: "#27272a",
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-background text-foreground font-sans antialiased h-screen flex flex-col overflow-hidden">
+
+    <!-- Header -->
+    <header class="h-14 border-b border-border flex items-center justify-between px-6 bg-card/50 backdrop-blur shrink-0">
+        <div class="flex items-center gap-2">
+            <i data-lucide="bar-chart-3" class="h-5 w-5 text-primary"></i>
+            <h1 class="font-bold text-lg tracking-tight">Sorting Visualizer</h1>
+        </div>
+        <div class="flex items-center gap-4 text-xs font-mono text-muted-foreground">
+            <span>C Implementation</span>
+            <div class="h-4 w-px bg-border"></div>
+            <span>Interactive Demo</span>
+        </div>
+    </header>
+
+    <!-- Main Grid -->
+    <main class="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-0 overflow-hidden">
+        
+        <!-- Left: Visualization (7 cols) -->
+        <div class="lg:col-span-7 flex flex-col border-r border-border h-full relative">
+            
+            <!-- Canvas Area -->
+            <div class="flex-1 bg-zinc-950 relative overflow-hidden p-8" id="canvas-container">
+                <div id="canvas" class="w-full h-full relative">
+                    <!-- Bars & Indices go here -->
+                </div>
+            </div>
+
+            <!-- Controls Footer -->
+            <div class="h-20 border-t border-border bg-card p-4 flex items-center justify-between shrink-0">
+                <div class="flex items-center gap-4">
+                    <select id="algo-select" class="h-9 rounded border border-input bg-zinc-900 px-3 text-xs focus:ring-1 focus:ring-primary outline-none">
+                        <option value="insertion">Insertion Sort</option>
+                        <option value="selection">Selection Sort</option>
+                        <option value="bubble">Bubble Sort</option>
+                    </select>
+                    
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="zap" class="h-3 w-3 text-muted-foreground"></i>
+                        <input type="range" id="speed-slider" min="1" max="100" value="60" class="w-24 h-1 bg-secondary rounded-lg appearance-none cursor-pointer accent-primary">
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <button id="btn-reset" title="Reset" class="h-9 w-9 flex items-center justify-center rounded border border-input hover:bg-secondary transition">
+                        <i data-lucide="rotate-ccw" class="h-4 w-4"></i>
+                    </button>
+                    <div class="h-6 w-px bg-border mx-1"></div>
+                    <button id="btn-back" title="Step Back" class="h-9 w-9 flex items-center justify-center rounded border border-input hover:bg-secondary transition">
+                        <i data-lucide="step-back" class="h-4 w-4"></i>
+                    </button>
+                    <button id="btn-play" class="h-9 px-4 flex items-center justify-center rounded bg-primary text-primary-foreground hover:bg-primary/90 transition text-xs font-bold shadow-lg shadow-orange-900/20">
+                        <i data-lucide="play" class="h-3 w-3 mr-2"></i> Play
+                    </button>
+                    <button id="btn-step" title="Step Forward" class="h-9 w-9 flex items-center justify-center rounded border border-input hover:bg-secondary transition">
+                        <i data-lucide="step-forward" class="h-4 w-4"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right: Code & Info (5 cols) -->
+        <div class="lg:col-span-5 flex flex-col h-full bg-card">
+            
+            <!-- Explanation Card -->
+            <div class="p-6 border-b border-border shrink-0">
+                <h3 class="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-2 flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-primary animate-pulse" id="status-dot"></span> Current Action
+                </h3>
+                <p id="explanation" class="text-sm leading-relaxed h-12">
+                    Ready to start. Select an algorithm and press Play.
+                </p>
+            </div>
+
+            <!-- Code Window -->
+            <div class="flex-1 flex flex-col min-h-0 relative bg-[#0d0d0e]">
+                <div class="absolute top-0 left-0 right-0 h-6 bg-gradient-to-b from-[#0d0d0e] to-transparent z-10 pointer-events-none"></div>
+                
+                <div id="code-scroll-area" class="flex-1 overflow-auto scrollbar-custom py-4">
+                    <div id="code-content" class="w-full"></div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Logic -->
+    <script src="script.js"></script>
+</body>
+</html>

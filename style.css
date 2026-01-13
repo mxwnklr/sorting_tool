@@ -1,0 +1,85 @@
+.scrollbar-custom::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+.scrollbar-custom::-webkit-scrollbar-track {
+    background: #18181b; 
+}
+.scrollbar-custom::-webkit-scrollbar-thumb {
+    background: #3f3f46; 
+    border-radius: 4px;
+}
+.scrollbar-custom::-webkit-scrollbar-thumb:hover {
+    background: #52525b; 
+}
+
+.code-line {
+    display: flex;
+    padding: 0 1rem;
+    min-height: 1.5rem; 
+    align-items: center; 
+}
+.line-num {
+    display: inline-block;
+    width: 2rem;
+    margin-right: 1rem;
+    text-align: right;
+    color: #52525b;
+    font-size: 0.75rem;
+    flex-shrink: 0;
+    user-select: none;
+}
+.line-content {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    white-space: pre;
+    color: #d4d4d8;
+}
+.code-line.active {
+    background-color: rgba(249, 115, 22, 0.1);
+    border-left: 2px solid #f97316;
+}
+.code-line.active .line-num {
+    color: #f97316;
+}
+
+/* Syntax Colors */
+.token-keyword { color: #c084fc; } /* purple-400 */
+.token-type { color: #2dd4bf; } /* teal-400 */
+.token-fn { color: #60a5fa; } /* blue-400 */
+.token-num { color: #fb923c; } /* orange-400 */
+.token-comment { color: #4ade80; opacity: 0.5; font-style: italic; } /* green-400 */
+
+/* Bar Styles */
+.bar {
+    position: absolute;
+    bottom: 30px; /* Space for indices */
+    transition: left 0.3s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.2s;
+    border-radius: 4px 4px 0 0;
+    display: flex;
+    align-items: flex-end; 
+    justify-content: center;
+    padding-bottom: 6px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.bar-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    color: white;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+    z-index: 10;
+}
+
+.index-marker {
+    position: absolute;
+    bottom: 5px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #52525b; /* zinc-600 */
+    text-align: center;
+    width: 40px; /* approx slot width */
+    transform: translateX(-50%);
+}
